@@ -6,7 +6,6 @@
 package org.geoserver.web.wicket;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.IAjaxCallDecorator;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -45,17 +44,8 @@ public abstract class SimpleAjaxLink<T> extends Panel {
             public void onClick(AjaxRequestTarget target) {
                 SimpleAjaxLink.this.onClick(target);
             }
-            
-            @Override
-            protected IAjaxCallDecorator getAjaxCallDecorator() {
-                return SimpleAjaxLink.this.getAjaxCallDecorator();
-            }
-            
+
         };
-    }
-    
-    protected IAjaxCallDecorator getAjaxCallDecorator() {
-        return null;
     }
 
     public AjaxLink getLink() {

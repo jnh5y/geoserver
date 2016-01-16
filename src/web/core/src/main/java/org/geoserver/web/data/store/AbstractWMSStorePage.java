@@ -151,7 +151,8 @@ abstract class AbstractWMSStorePage extends GeoServerSecuredPage {
 
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form form) {
-                form.process();
+                //JNH: Does this make sense?  Seems tautological.
+                form.process(form.findSubmittingButton());
                 WMSStoreInfo info = (WMSStoreInfo) form.getModelObject();
                 try {
                     onSave(info, target);
