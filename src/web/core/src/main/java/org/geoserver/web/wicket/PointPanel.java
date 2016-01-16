@@ -17,6 +17,8 @@ import org.apache.wicket.model.ResourceModel;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
+import org.apache.wicket.util.visit.IVisit;
+import org.apache.wicket.util.visit.IVisitor;
 
 /**
  * A form component for a {@link Point} object.
@@ -81,25 +83,14 @@ public class PointPanel extends FormComponentPanel<Point> {
     }
    
     public PointPanel setReadOnly( final boolean readOnly ) {
-        visitChildren( TextField.class, new org.apache.wicket.Component.IVisitor() {
-            public Object component(Component component) {
-                component.setEnabled( !readOnly );
-                return null;
-            }
-        });
+        visitChildren( TextField.class, (Component object, IVisit<Object> visit) -> object.setEnabled(!readOnly));
 
         return this;
     }
     
     @Override
     public void convertInput() {
-        visitChildren( TextField.class, new org.apache.wicket.Component.IVisitor() {
-
-            public Object component(Component component) {
-                ((TextField) component).processInput();
-                return null;
-            }
-        });
+        visitChildren( TextField.class, (Component component, IVisit<Object> visit) -> ((TextField)component).processInput());
         
         // update the point model
         if(x != null && y != null) {
@@ -114,12 +105,8 @@ public class PointPanel extends FormComponentPanel<Point> {
         // when the client programmatically changed the model, update the fields
         // so that the textfields will change too
         updateFields();
-        visitChildren(TextField.class, new Component.IVisitor() {
-            
-            public Object component(Component component) {
-                ((TextField) component).clearInput();
-                return CONTINUE_TRAVERSAL;
-            }
+        visitChildren(TextField.class, (Component component, IVisit<Component> visit) -> {
+            ((TextField)component).clearInput();
         });
     }
     
