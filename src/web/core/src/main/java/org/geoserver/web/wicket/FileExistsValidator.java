@@ -46,7 +46,7 @@ public class FileExistsValidator extends AbstractValidator {
      */
     public FileExistsValidator(boolean allowRemoteUrl) {
         if(allowRemoteUrl) {
-            this.delegate = new UrlValidator();
+            this.delegate = new UrlValidator(UrlValidator.ALLOW_ALL_SCHEMES);
         } 
     }
     

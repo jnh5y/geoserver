@@ -63,7 +63,9 @@ public class FileModel implements IModel {
         if(location != null) {
             File dataDirectory = canonicalize(rootDir);
             File file = canonicalize(new File(location));
-            if(isSubfile(dataDirectory, file)) {
+            if (location.startsWith("hdfs")) {
+              // Do nothing.  We are happy:)
+            } else if(isSubfile(dataDirectory, file)) {
                 File curr = file;
                 String path = null;
                 // paranoid check to avoid infinite loops
